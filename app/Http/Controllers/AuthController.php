@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,7 +20,8 @@ class AuthController extends Controller
         // Check password
         if(!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
-                'message' => 'Wrong credentials!'
+                'message' => 'Wrong credentials!',
+                'type' => 'error'
             ], 401);
         }
 
@@ -30,7 +30,8 @@ class AuthController extends Controller
         $response = [
             'user' => $user,
             'token' => $token,
-            'message' => 'Successfully Logged In!'
+            'message' => 'Successfully Logged In!',
+            'type' => 'success'
         ];
 
         return response($response, 201);

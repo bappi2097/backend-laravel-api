@@ -2,5 +2,4 @@
 
 ##### New Features
 
-* **auth:**  authentication added (7e06cc53)
-
+-   **auth:** authentication added (f4952c6e)
