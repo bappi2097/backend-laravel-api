@@ -1,0 +1,165 @@
+openapi: 3.0.3
+info:
+  title: Laravel Backend
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: "http://localhost:8000/"
+paths:
+  /api/logout:
+    post:
+      tags:
+        - Auth
+      summary: Logout
+      description: Logout
+      operationId: logout
+      responses:
+        "200":
+          description: ""
+  /api/register/:
+    post:
+      tags:
+        - Auth
+      summary: Register
+      description: Register
+      operationId: register
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: admin@mail.com
+                firstName:
+                  type: string
+                  example: Bappi
+                lastName:
+                  type: string
+                  example: Saha
+                password:
+                  type: string
+                  example: Password1!
+                password_confirmation:
+                  type: string
+                  example: Password1!
+      responses:
+        "200":
+          description: ""
+  /api/login/:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      description: Login
+      operationId: login
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: admin@mail.com
+                password:
+                  type: string
+                  example: Password1!
+      responses:
+        "200":
+          description: ""
+  /api/user:
+    get:
+      tags:
+        - User
+      summary: Get User
+      description: Get User
+      operationId: getUser
+      responses:
+        "200":
+          description: ""
+    put:
+      tags:
+        - User
+      summary: Update User
+      description: Update User
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: admin@mail.com
+                firstName:
+                  type: string
+                  example: Bappi
+                lastName:
+                  type: string
+                  example: Saha
+                preferences:
+                  type: array
+                  items: {}
+                  example: []
+            example:
+              email: admin@mail.com
+              firstName: Bappi
+              lastName: Saha
+              preferences: []
+      responses:
+        "200":
+          description: ""
+  /api/news-source/:
+    get:
+      tags:
+        - News Source
+      summary: Get News Source List
+      description: Get News Source List
+      operationId: getNewsSourceList
+      responses:
+        "200":
+          description: ""
+  /api/news-source/1:
+    get:
+      tags:
+        - News Source
+      summary: Get News Source
+      description: Get News Source
+      operationId: getNewsSource
+      responses:
+        "200":
+          description: ""
+  /api/news-feed:
+    get:
+      tags:
+        - NewsFeed
+      summary: Get News
+      description: Get News
+      operationId: getNews
+      parameters:
+        - name: date
+          in: query
+          schema:
+            type: string
+        - name: keyword
+          in: query
+          schema:
+            type: string
+            example: all
+      responses:
+        "200":
+          description: ""
+tags:
+  - name: Auth
+    description: |-
+      This folder is for authentication api.
+
+      - Login
+      - Register
+      - Logout
+  - name: User
+  - name: News Source
+  - name: NewsFeed
