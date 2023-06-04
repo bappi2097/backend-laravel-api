@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Response;
+use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
@@ -18,7 +19,7 @@ class AuthController extends Controller
         $user = User::where('email', $fields['email'])->first();
 
         // Check password
-        if(!$user || !Hash::check($fields['password'], $user->password)) {
+        if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
                 'message' => 'Wrong credentials!',
                 'type' => 'error'
@@ -28,7 +29,7 @@ class AuthController extends Controller
         $token = $user->createToken('token')->plainTextToken;
 
         $response = [
-            'user' => $user,
+            'user' => new UserResource($user),
             'token' => $token,
             'message' => 'Successfully Logged In!',
             'type' => 'success'
@@ -54,7 +55,7 @@ class AuthController extends Controller
         $token = $user->createToken('token')->plainTextToken;
 
         $response = [
-            'user' => $user,
+            'user' => new UserResource($user),
             'token' => $token,
             'message' => 'Successfully Registered!'
         ];
@@ -63,7 +64,8 @@ class AuthController extends Controller
     }
 
 
-    public function logout() {
+    public function logout()
+    {
         auth()->user()->tokens()->delete();
 
         return [

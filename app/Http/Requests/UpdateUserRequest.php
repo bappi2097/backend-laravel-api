@@ -24,9 +24,8 @@ class UpdateUserRequest extends FormRequest
         return [
             'firstName' => 'required|string|max:30',
             'lastName' => 'required|string|max:30',
-            'email' => 'bail|required|string|unique:users,email,' . $this->user->id,
-            'preferences' => 'required|array',
-            'preferences.*' => 'string'
+            'email' => 'bail|required|string|unique:users,email,' . auth()->user()->id,
+            'preferences' => 'nullable|array'
         ];
     }
 }

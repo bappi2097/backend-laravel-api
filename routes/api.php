@@ -3,7 +3,9 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NewsFeedController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NewsSourceContorller;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +27,13 @@ Route::post('/login', [AuthController::class, "login"]);
 Route::post('/register', [AuthController::class, "register"]);
 
 
-Route::middleware('auth:sanctum')->group(function(){
+Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, "logout"]);
-    Route::get('/user/{user}', [UserController::class, "show"]);
-    Route::put('/user/{user}', [UserController::class, "update"]);
-
+    Route::get('/user', [UserController::class, "show"]);
+    Route::put('/user', [UserController::class, "update"]);
+    Route::prefix('news-source')->controller(NewsSourceContorller::class)->group(function () {
+        Route::get('/', 'index');
+        Route::get('/{newsSource}', 'show');
+    });
+    Route::get('/news-feed', [NewsFeedController::class, "getNews"]);
 });
